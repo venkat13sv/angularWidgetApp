@@ -1,16 +1,32 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
+import { CaseSearchComponent } from './case-search/case-search.component';
+import { CaseService } from './case-search/case.service';
+import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from './app.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
-  ],
+    CaseSearchComponent,
+],
   imports: [
-    BrowserModule
+    BrowserModule,
+	HttpClientModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [CaseService],
+  bootstrap: [],
+  entryComponents: [
+    CaseSearchComponent
+  ]
+
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    const customElement = createCustomElement(CaseSearchComponent, { injector });
+    customElements.define('case-search', customElement);
+  }
+
+  ngDoBootstrap() { }
+}
