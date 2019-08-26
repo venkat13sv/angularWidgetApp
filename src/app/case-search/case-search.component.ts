@@ -1,5 +1,18 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter,ViewChild } from '@angular/core';
 import { CaseService } from './case.service';
+
+import { MatTableDataSource, MatSort } from '@angular/material';
+import {SelectionModel, DataSource } from '@angular/cdk/collections';
+import { delay } from 'rxjs/operators';
+
+export interface Project {
+  goal: number;
+  date: Date;
+  name: string;
+}
+
+
+
 @Component({
   selector: 'case-search',
   templateUrl: './case-search.component.html',
@@ -7,6 +20,12 @@ import { CaseService } from './case.service';
 })
 export class CaseSearchComponent  {
 
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
+  projects          : Array<Project>;
+  loading           : boolean = false;
+  displayedColumns  : string[] =  ['id', 'name', 'type','description'];
+  dataSource = new MatTableDataSource([]);
 
   public caseList: any[];
   public searchobj:any={"caseId":"","caseName":"","caseType":""};
@@ -50,16 +69,22 @@ export class CaseSearchComponent  {
   }
 
   getAllCases(){
+    this.loading = true;
     this._caseService.getCases().subscribe(
         (response:any) =>{
-           if(response.length>0)
+           if(response.length > 0){
              this.caseList=response;
+             this.dataSource.data =response;
+             this.dataSource.sort = this.sort;
+             this.loading = false;
+           }
            else
              this.caseList=[{"id":"","name":"Sorry! Something went wrong,No case data found to display. Please check server connection.","description":""}];
              console.log("Response from server: "+ JSON.stringify(this.caseList));
          },
          err => {
            console.log(err);
+           this.loading = false;
             this.caseList=[{"id":"","name":"Sorry! Something went wrong,No case data found to display. Please check server connection.","description":""}];
          }
     );
