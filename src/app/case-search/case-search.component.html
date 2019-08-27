@@ -24,6 +24,7 @@
   </tbody>
 </table>-->
 
+
 <div class="example-container mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
 
@@ -46,21 +47,7 @@
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
 
-  <!--  <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <div class="button-row">
-          <button  mat-raised-button color="primary" [disabled]="loading ">
-              <i class="fa fa-edit " *ngIf="!loading"></i>
-              <i class="fa fa-spinner fa-spin " *ngIf="loading"></i>
-            </button>
-          <button mat-raised-button color="primary" (click)="deleteProject(element._id)" [disabled]="loading">
-              <i class="fa fa-trash " *ngIf="!loading"></i>
-              <i class="fa fa-spinner fa-spin " *ngIf="loading"></i>
-            </button>
-        </div>
-        </td>
-    </ng-container>-->
+
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
