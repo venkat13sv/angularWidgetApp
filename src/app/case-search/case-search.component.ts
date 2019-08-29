@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter,ViewChild } from '@angular/core';
 import { CaseService } from './case.service';
+import '@webcomponents/custom-elements';
 
 
 import { MatTableDataSource, MatSort } from '@angular/material';
